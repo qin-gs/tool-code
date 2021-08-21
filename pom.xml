@@ -12,7 +12,7 @@
     <groupId>com.tool</groupId>
     <artifactId>ToolCode</artifactId>
     <version>0.1</version>
-    <name>ToolCode</name>
+    <name>tool-code</name>
     <packaging>pom</packaging>
     <description>ToolCode</description>
 

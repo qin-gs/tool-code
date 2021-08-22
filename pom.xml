@@ -16,6 +16,11 @@
     <packaging>pom</packaging>
     <description>ToolCode</description>
 
+    <modules>
+        <module>apache-code</module>
+        <module>java-code</module>
+    </modules>
+
     <properties>
         <java-version>11</java-version>
         <spring-version>2.5.3</spring-version>
@@ -50,6 +55,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.3</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

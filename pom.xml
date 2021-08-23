@@ -19,6 +19,7 @@
     <modules>
         <module>apache-code</module>
         <module>java-code</module>
+        <module>hutool-code</module>
     </modules>
 
     <properties>

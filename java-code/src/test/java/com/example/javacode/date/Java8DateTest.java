@@ -107,12 +107,18 @@ public class Java8DateTest {
 		System.out.println(parse);
 	}
 
+	/**
+	 * 时间戳获取
+	 */
 	@Test
 	public void test8() {
 		// 秒级时间戳
 		System.out.println(LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8")));
+		System.out.println(Instant.now().getEpochSecond());
 		// 毫秒级时间戳
 		System.out.println(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
+		System.out.println(Instant.now().toEpochMilli());
+		System.out.println(System.currentTimeMillis());
 	}
 
 	/**

@@ -1,9 +1,10 @@
 package com.apache.email;
 
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.*;
+import org.apache.commons.mail.resolver.DataSourceClassPathResolver;
+import org.apache.commons.mail.resolver.DataSourceCompositeResolver;
+import org.apache.commons.mail.resolver.DataSourceFileResolver;
+import org.apache.commons.mail.resolver.DataSourceUrlResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +12,13 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -85,6 +86,7 @@ public class EmailTest {
 		message.setSubject("主题");
 
 		MimeBodyPart text = new MimeBodyPart();
+        // cid:的值要和后面设置的content-id相同
 		text.setContent("图片<br><img src='cid:avatar.png'>", "text/html;charset=utf-8");
 
 		// 图片
@@ -114,8 +116,53 @@ public class EmailTest {
 		message.setContent(part2);
 		message.saveChanges();
 
-		ts.sendMessage(message, message.getAllRecipients());
-		ts.close();
-		System.out.println("发送成功");
-	}
+        ts.sendMessage(message, message.getAllRecipients());
+        ts.close();
+        System.out.println("发送成功");
+    }
+
+    @Test
+    public void afterHtmlEmail() throws EmailException, MalformedURLException {
+        HtmlEmail email = new HtmlEmail();
+        email.setHostName("smtp.qq.com");
+        email.setAuthenticator(new DefaultAuthenticator(FROM_EMAIL, EMAIL_PASSWORD));
+        email.setFrom(FROM_EMAIL);
+        email.addTo(TO_EMAIL);
+        email.setSubject("主题");
+
+        // 图片
+        String cid = email.embed(new URL("https://avatars.githubusercontent.com/u/32542178"), "cid");
+        email.setCharset(EmailConstants.UTF_8);
+        email.setMsg("<html>头像: <br/><img src=\"cid:" + cid + "\"></html>");
+        email.setTextMsg("邮件不支持html格式");
+
+        // 附件
+        EmailAttachment attachment = new EmailAttachment();
+        attachment.setPath("src/test/resources/csv/iris.csv");
+        email.attach(attachment);
+
+        email.send();
+    }
+
+    @Test
+    public void afterImageHtmlEmail() throws MalformedURLException, EmailException {
+        ImageHtmlEmail email = new ImageHtmlEmail();
+        File file = new File("");
+        URL url = new URL("");
+        String path = "";
+
+        // 发送多张来源不同的图片
+        DataSourceResolver r1 = new DataSourceFileResolver(file);
+        DataSourceResolver r2 = new DataSourceUrlResolver(url);
+        DataSourceResolver r3 = new DataSourceClassPathResolver(path);
+        DataSourceResolver[] resolvers = {r1, r2, r3};
+
+        DataSourceResolver resolver = new DataSourceCompositeResolver(resolvers);
+        email.setDataSourceResolver(resolver);
+        email.setTextMsg("图片1:<br>"
+                + "<img src=\"1.png\">"
+                + "<img src=\"2.png\">"
+                + "<img src=\"3.png\">");
+
+    }
 }

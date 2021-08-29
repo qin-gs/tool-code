@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.tool</groupId>
-    <artifactId>ToolCode</artifactId>
+    <artifactId>tool-code</artifactId>
     <version>0.1</version>
     <name>tool-code</name>
     <packaging>pom</packaging>
-    <description>ToolCode</description>
+    <description>tool-code</description>
 
     <modules>
         <module>apache-code</module>

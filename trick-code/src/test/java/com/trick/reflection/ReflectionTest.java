@@ -3,7 +3,13 @@ package com.trick.reflection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
-import org.reflections.scanners.*;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.MethodParameterNamesScanner;
+import org.reflections.scanners.MethodParameterScanner;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
@@ -12,7 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,49 +41,49 @@ import static org.reflections.ReflectionUtils.*;
 @DisplayName("reflection 测试类")
 public class ReflectionTest {
 
-	@Test
-	public void test() throws NoSuchMethodException {
-		Reflections reflections = new Reflections(
-				new ConfigurationBuilder()
-						.setUrls(ClasspathHelper.forPackage("com.trick"))
-						.setScanners(
-								new SubTypesScanner(), // 默认
-								new TypeAnnotationsScanner(), // 默认
-								new MethodAnnotationsScanner(),
-								new ResourcesScanner(),
-								new FieldAnnotationsScanner(),
-								new MethodParameterScanner(),
-								new MethodParameterNamesScanner()
-						)
-						.filterInputsBy(new FilterBuilder().includePackage("java.lang"))
-		);
+    @Test
+    public void test() throws NoSuchMethodException {
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        .setUrls(ClasspathHelper.forPackage("com.trick"))
+                        .setScanners(
+                                new SubTypesScanner(), // 默认
+                                new TypeAnnotationsScanner(), // 默认
+                                new MethodAnnotationsScanner(),
+                                new ResourcesScanner(),
+                                new FieldAnnotationsScanner(),
+                                new MethodParameterScanner(),
+                                new MethodParameterNamesScanner()
+                        )
+                        .filterInputsBy(new FilterBuilder().includePackage("java.lang"))
+        );
 
-		Set<Class<? extends BeanFactory>> subTypesOf = reflections.getSubTypesOf(BeanFactory.class);
-		Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Service.class);
-		Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
-		Set<Method> methodsAnnotatedWith = reflections.getMethodsAnnotatedWith(Override.class);
-		Set<Constructor> constructorsAnnotatedWith = reflections.getConstructorsAnnotatedWith(PostConstruct.class);
-		Set<Field> fieldsAnnotatedWith = reflections.getFieldsAnnotatedWith(Autowired.class);
-		Set<Method> methodsMatchParams = reflections.getMethodsMatchParams(String.class, String.class);
-		Set<Method> methodsReturn = reflections.getMethodsReturn(void.class);
-		Set<Method> methodsWithAnyParamAnnotated = reflections.getMethodsWithAnyParamAnnotated(Autowired.class);
-		List<String> methodParamNames = reflections.getMethodParamNames(Object.class.getMethod("equals"));
-		Set<Member> equals = reflections.getMethodUsage(Object.class.getMethod("equals"));
-	}
+        Set<Class<? extends BeanFactory>> subTypesOf = reflections.getSubTypesOf(BeanFactory.class);
+        Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Service.class);
+        Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
+        Set<Method> methodsAnnotatedWith = reflections.getMethodsAnnotatedWith(Override.class);
+        Set<Constructor> constructorsAnnotatedWith = reflections.getConstructorsAnnotatedWith(PostConstruct.class);
+        Set<Field> fieldsAnnotatedWith = reflections.getFieldsAnnotatedWith(Autowired.class);
+        Set<Method> methodsMatchParams = reflections.getMethodsMatchParams(String.class, String.class);
+        Set<Method> methodsReturn = reflections.getMethodsReturn(void.class);
+        Set<Method> methodsWithAnyParamAnnotated = reflections.getMethodsWithAnyParamAnnotated(Autowired.class);
+        List<String> methodParamNames = reflections.getMethodParamNames(Object.class.getMethod("equals"));
+        Set<Member> equals = reflections.getMethodUsage(Object.class.getMethod("equals"));
+    }
 
-	@Test
-	public void utilTest() {
-		Set<Method> methods = getAllMethods(
-				Object.class,
-				withModifier(Modifier.PUBLIC),
-				withPrefix("wait"),
-				withParameters(Long.class)
-		);
-		Set<Field> fields = getAllFields(
-				ArrayList.class,
-				withAnnotation(Autowired.class),
-				withTypeAssignableTo(Number.class)
-		);
-	}
+    @Test
+    public void utilTest() {
+        Set<Method> methods = getAllMethods(
+                Object.class,
+                withModifier(Modifier.PUBLIC),
+                withPrefix("wait"),
+                withParameters(Long.class)
+        );
+        Set<Field> fields = getAllFields(
+                ArrayList.class,
+                withAnnotation(Autowired.class),
+                withTypeAssignableTo(Number.class)
+        );
+    }
 
 }

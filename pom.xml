@@ -21,6 +21,7 @@
         <module>java-code</module>
         <module>hutool-code</module>
         <module>trick-code</module>
+        <module>spring-code</module>
     </modules>
 
     <properties>

@@ -22,11 +22,12 @@
         <module>hutool-code</module>
         <module>trick-code</module>
         <module>spring-code</module>
+        <module>log-code</module>
     </modules>
 
     <properties>
         <java-version>11</java-version>
-        <spring-version>2.5.4</spring-version>
+        <spring-version>2.5.3</spring-version>
     </properties>
 
     <dependencyManagement>

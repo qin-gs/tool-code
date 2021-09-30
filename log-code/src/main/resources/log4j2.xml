@@ -26,17 +26,6 @@
         </File>
 
         <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="File" fileName="${FILE_PATH}/info.log"
-                     filePattern="${FILE_PATH}/archives/app-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="${PATTERN}"/>
-            <Policies>
-                <!--默认一天一个文件-->
-                <TimeBasedTriggeringPolicy/>
-                <!--一天内大于size就单独分隔-->
-                <SizeBasedTriggeringPolicy size="1 GB"/>
-            </Policies>
-        </RollingFile>
-        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFileInfo" fileName="${FILE_PATH}/info.log"
                      filePattern="${FILE_PATH}/archives/INFO-%d{yyyy-MM-dd}_%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
@@ -93,8 +82,11 @@
         <Root level="INFO">
             <!--这里需要区分下环境（配合maven profile之类的）-->
             <!-- 开发环境使用Console Appender，生产环境使用File Appender -->
+            <AppenderRef ref="log"/>
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFileInfo"/>
+            <AppenderRef ref="RollingFileWarn"/>
+            <AppenderRef ref="RollingFileError"/>
         </Root>
     </Loggers>
 </Configuration>

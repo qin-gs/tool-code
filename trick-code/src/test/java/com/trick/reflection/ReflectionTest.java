@@ -38,6 +38,7 @@ import static org.reflections.ReflectionUtils.*;
  * 5. 获取所有方法的名字
  * 6. 获取代码里所有字段、方法名、构造器的使用
  */
+@SuppressWarnings("unused")
 @DisplayName("reflection 测试类")
 public class ReflectionTest {
 

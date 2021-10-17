@@ -23,10 +23,11 @@
         <module>trick-code</module>
         <module>spring-code</module>
         <module>log-code</module>
+        <module>guava-code</module>
     </modules>
 
     <properties>
-        <java-version>11</java-version>
+        <java-version>17</java-version>
         <spring-version>2.5.3</spring-version>
     </properties>
 

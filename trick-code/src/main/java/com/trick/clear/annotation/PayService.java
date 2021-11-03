@@ -15,22 +15,22 @@ import java.util.Map;
 @Service
 public class PayService implements ApplicationListener<ContextRefreshedEvent> {
 
-	private static Map<String, IPay> payMap;
+    private static Map<String, IPay> payMap;
 
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		ApplicationContext context = event.getApplicationContext();
-		Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(PayCode.class);
-		if (beansWithAnnotation != null) {
-			payMap = new HashMap<>();
-			beansWithAnnotation.forEach((key, value) -> {
-				String type = value.getClass().getAnnotation(PayCode.class).value();
-				payMap.put(type, (IPay) value);
-			});
-		}
-	}
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        ApplicationContext context = event.getApplicationContext();
+        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(PayCode.class);
+        if (beansWithAnnotation != null) {
+            payMap = new HashMap<>();
+            beansWithAnnotation.forEach((key, value) -> {
+                String type = value.getClass().getAnnotation(PayCode.class).value();
+                payMap.put(type, (IPay) value);
+            });
+        }
+    }
 
-	public void pay(String code) {
-		payMap.get(code).pay();
-	}
+    public void pay(String code) {
+        payMap.get(code).pay();
+    }
 }

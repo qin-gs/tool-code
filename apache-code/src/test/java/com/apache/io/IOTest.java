@@ -6,10 +6,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.comparator.CompositeFileComparator;
 import org.apache.commons.io.comparator.DirectoryFileComparator;
 import org.apache.commons.io.comparator.NameFileComparator;
-import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.input.AutoCloseInputStream;
 import org.apache.commons.io.input.CountingInputStream;
-import org.apache.commons.io.input.ObservableInputStream;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
@@ -19,10 +17,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @DisplayName("apache io 测试类")
 public class IOTest {

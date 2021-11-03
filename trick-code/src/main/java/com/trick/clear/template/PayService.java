@@ -16,27 +16,27 @@ import java.util.Objects;
  */
 @Service
 public class PayService implements ApplicationContextAware, InitializingBean {
-	private ApplicationContext context;
-	private List<IPay> payList;
+    private ApplicationContext context;
+    private List<IPay> payList;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		if (Objects.isNull(payList)) {
-			payList = new ArrayList<>();
-			Map<String, IPay> beansOfType = context.getBeansOfType(IPay.class);
-			beansOfType.forEach((key, value) -> payList.add(value));
-		}
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (Objects.isNull(payList)) {
+            payList = new ArrayList<>();
+            Map<String, IPay> beansOfType = context.getBeansOfType(IPay.class);
+            beansOfType.forEach((key, value) -> payList.add(value));
+        }
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
 
-	public void toPay(String code) {
-		payList.stream()
-				.filter(iPay -> iPay.support(code))
-				.findFirst()
-				.ifPresent(IPay::pay);
-	}
+    public void toPay(String code) {
+        payList.stream()
+                .filter(iPay -> iPay.support(code))
+                .findFirst()
+                .ifPresent(IPay::pay);
+    }
 }

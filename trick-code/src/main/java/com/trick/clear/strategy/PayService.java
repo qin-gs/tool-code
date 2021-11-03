@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PayService {
 
-	public void toPay(String code) {
-		PayStrategyFactory.getPay(code).pay();
-	}
+    public void toPay(String code) {
+        PayStrategyFactory.getPay(code).pay();
+    }
 }

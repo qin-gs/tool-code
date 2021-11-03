@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PayCode {
-	String value();
+    String value();
 
-	String name();
+    String name();
 }

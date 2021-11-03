@@ -13,31 +13,31 @@ import java.util.Map;
 
 @Service
 public class PayHandlerChain implements ApplicationContextAware, InitializingBean {
-	private ApplicationContext context;
-	private PayHandler handler;
+    private ApplicationContext context;
+    private PayHandler handler;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		Map<String, PayHandler> beansOfType = context.getBeansOfType(PayHandler.class);
-		if (MapUtils.isEmpty(beansOfType)) {
-			return;
-		}
-		List<PayHandler> handlers = new ArrayList<>(beansOfType.values());
-		for (int i = 0; i < handlers.size(); i++) {
-			PayHandler handler = handlers.get(i);
-			if (i != handlers.size() - 1) {
-				handler.setNext(handlers.get(i + 1));
-			}
-		}
-		handler = handlers.get(0);
-	}
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Map<String, PayHandler> beansOfType = context.getBeansOfType(PayHandler.class);
+        if (MapUtils.isEmpty(beansOfType)) {
+            return;
+        }
+        List<PayHandler> handlers = new ArrayList<>(beansOfType.values());
+        for (int i = 0; i < handlers.size(); i++) {
+            PayHandler handler = handlers.get(i);
+            if (i != handlers.size() - 1) {
+                handler.setNext(handlers.get(i + 1));
+            }
+        }
+        handler = handlers.get(0);
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
 
-	public void pay(String code) {
-		handler.pay(code);
-	}
+    public void pay(String code) {
+        handler.pay(code);
+    }
 }

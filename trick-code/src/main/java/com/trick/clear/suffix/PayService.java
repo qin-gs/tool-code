@@ -10,19 +10,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PayService implements ApplicationContextAware {
-	private ApplicationContext context;
-	private static final String SUFFIX = "Pay";
+    private ApplicationContext context;
+    private static final String SUFFIX = "Pay";
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
 
-	public void pay(String code) {
-		((IPay) context.getBean(getBeanName(code))).pay();
-	}
+    public void pay(String code) {
+        ((IPay) context.getBean(getBeanName(code))).pay();
+    }
 
-	private String getBeanName(String code) {
-		return code + SUFFIX;
-	}
+    private String getBeanName(String code) {
+        return code + SUFFIX;
+    }
 }

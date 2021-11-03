@@ -15,8 +15,7 @@ import java.util.List;
 
 /**
  * 相比于JsonDeserializer和JsonSerializer，更推荐使用TypeAdapter但是比较麻烦()
- *  {@code @JsonAdapter}注解用来标记类，不用再通过registerTypeAdapter注册了
- *
+ * {@code @JsonAdapter}注解用来标记类，不用再通过registerTypeAdapter注册了
  */
 @DisplayName("gson TypeAdapter 测试")
 public class GsonAdapterTest {

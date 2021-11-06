@@ -52,5 +52,71 @@ public class Chapter02Test {
                 .addTopping(Pizza.Topping.MUSHROOM).addTopping(Pizza.Topping.PEPPER).build();
         System.out.println(calzone);
     }
-}
 
+    /**
+     * 3. 使用私有构造器 或 枚举类 强化单例
+     */
+    @Test
+    public void test3() {
+        // 公有静态对象引用 或 公有静态方法 提供单例对象
+        // 单元素枚举类实现单例
+        // 需要提供 readResolve 方法使对象反序列化时不会创建新实例
+    }
+
+    /**
+     * 4. 通过私有构造器强化不可实例化的能力
+     */
+    @Test
+    public void test4() {
+        // 工具类添加一个私有构造器使其不可实例化
+        // Suppresses default constructor, ensuring non-instantiability.
+    }
+
+    /**
+     * 5. 优先考虑依赖注入来引入资源
+     */
+    @Test
+    public void test5() {
+        // 不要用单例和静态工具类来实现依赖一个或多个底层资源的类，且该资源的行为会应应先到该类的行为
+        // 也不要用这个类来创建资源
+        // 应该经这些资源或工厂传给构造器，通过他们来创建类
+    }
+
+    /**
+     * 6. 避免创建不必要的对象
+     * 7. 消除过期的对象引用
+     * 类自己管理的内存(return stack[-- size] 数组中size后面的元素不会被使用也不会被回收)
+     * 缓存(如果缓存项的声明周期是由键的外部引用而不是由值决定时，可以使用 WeakHashMap )
+     * 监听器和回调
+     */
+    @Test
+    public void test6() {
+        // 使用 静态工厂方法优先于构造器
+        // Boolean aBoolean = Boolean.valueOf("true");
+        // 正则表达式的编译复用
+        // 优先使用基本类型而不是包装类型，当心无意义的自动装箱
+
+        long l = System.currentTimeMillis();
+        Long sum = 0L; // 这里使用 long 会快 10 倍
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            sum += i;
+        }
+        long c = System.currentTimeMillis();
+        System.out.println(c - l);
+        System.out.println(sum);
+    }
+
+    /**
+     * 8. 避免使用终结方法 和 清除方法
+     * 9. try-with-resource 优先于 try-finally
+     */
+    @Test
+    public void test8() {
+        // 不要使用总结方法 或 清除方法 更新重要的持久状态
+        // finalizer cleaner
+
+    }
+
+
+
+}

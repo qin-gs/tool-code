@@ -11,11 +11,6 @@
 
     <artifactId>effective-java</artifactId>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
-
     <dependencies>
 
         <!--JUnit Platform是在JVM上启动测试框架的基础。-->

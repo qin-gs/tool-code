@@ -29,8 +29,10 @@
     </modules>
 
     <properties>
-        <java-version>11</java-version>
+        <java-version>17</java-version>
         <spring-version>2.5.3</spring-version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

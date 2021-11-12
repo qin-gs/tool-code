@@ -1,14 +1,10 @@
 package com.effective.chapter03;
 
-import com.effective.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @DisplayName("对于所有对象都通用的方法")
 public class Chapter03Test {
@@ -81,19 +77,30 @@ public class Chapter03Test {
         System.out.println("num1.equals(num2) = " + num1.equals(num2));
         System.out.println("num1.compareTo(num2) == 0 = " + (num1.compareTo(num2) == 0));
 
-        // BigDecimal 方法
+        // x.compareTo(y) == x.equals(y) 建议相等
+
+        // BigDecimal 的 equals 方法和 compareTo 方法的返回值不同
+        // HashSet 中比较的的 equals，集合中有两个值
         Set<BigDecimal> hashSet = new HashSet<>();
         hashSet.add(num1);
         hashSet.add(num2);
         System.out.println("hashSet.size() = " + hashSet.size());
         System.out.println("hashSet = " + hashSet);
 
+        // TreeSet 中比较的是 compareTo，集合中只有一个值
         Set<BigDecimal> treeSet = new TreeSet<>();
         treeSet.add(num1);
         treeSet.add(num2);
         System.out.println("treeSet.size() = " + treeSet.size());
         System.out.println("treeSet = " + treeSet);
 
+
+        Comparator<String> caseInsensitiveOrder = String.CASE_INSENSITIVE_ORDER;
+        Comparator<String> comparator = String::compareToIgnoreCase;
+
+        // 比较两个对象的 hashcode
+        // 使用 Comparator#comparingInt 方法 否则会造成整数溢出
+        Comparator<Object> hashCodeComparator = Comparator.comparingInt(Object::hashCode);
     }
 
 }

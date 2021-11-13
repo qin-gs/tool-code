@@ -1,4 +1,4 @@
-package com.effective.chapter06;
+package com.effective.chapter05;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -172,7 +172,7 @@ public class Chapter09Test {
 
     /**
      * 67. 谨慎的进行优化
-     * 68. 遵守普遍接收的命名惯例
+     * 68. 遵守普遍接受的命名惯例
      */
     @Test
     public void test67() {

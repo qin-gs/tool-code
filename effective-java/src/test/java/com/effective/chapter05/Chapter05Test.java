@@ -53,12 +53,22 @@ public class Chapter05Test {
         Object[] longs = new Long[1];
         longs[0] = "a string in long[]"; // ArrayStoreException
 
+        // 直接 new List<String>[] 是不合法的，需要强转
+        Set<String>[] sets = (Set<String>[]) new Set[2];
+        List<String>[] lists = (List<String>[]) new List[2];
+
         // List<Long> 不是 List<Object> 的子类型 (covariant 协变)
         // List<Object> list = new ArrayList<Long>();
-        // List<String>[] 是不合法的
+        // new List<String>[] 是不合法的
         // E, List<T>, List<String> 不可具化类型(non-reifiable type)
         // 由于泛型擦除的原因，运行时展示的信息比编译时的信息要少
         // List<?>, Map<?, ?> 可具化参数类型(无限制通配符)
+
+        List<String>[] stringLists = new List[1]; // (1)
+        List<Integer> intList = List.of(42); // (2)
+        Object[] objects = stringLists; // (3)
+        objects[0] = intList; // (4)
+        String s = stringLists[0].get(0); // (5)
 
         // 类型限制<E extends Comparable<E>>可以被读作“任意能与其自身进行比较的类型E”
     }

@@ -11,7 +11,7 @@ import java.util.EnumSet;
 public class EnumTest {
 
     @Test
-    public void test() {
+    public void enumSetTest() {
         EnumMap<Color, String> map = new EnumMap<>(Color.class);
         map.put(Color.BLACK, "黑色");
         map.put(Color.WHITE, "白色");
@@ -37,6 +37,11 @@ public class EnumTest {
 
         EnumSet<Color> copyColor = EnumSet.copyOf(Arrays.asList(Color.YELLOW, Color.BLACK));
         System.out.println(copyColor);
+    }
+
+    @Test
+    public void enumMapTest() {
+
     }
 
 }

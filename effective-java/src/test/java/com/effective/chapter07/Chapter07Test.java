@@ -9,6 +9,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 @DisplayName("lambda 和 stream")
 public class Chapter07Test {
@@ -136,6 +141,109 @@ public class Chapter07Test {
     @Test
     public void test46() {
 
+        // Stream 将计算结果构造成一系列变型，每一级结果都尽可能靠近上一个结果的纯函数
+        // 纯函数(pure function): 值结果值取决于输入，不依赖任何可变状态，也不更新状态
+
+        // 统计词频
+        HashMap<String, Integer> map = new HashMap<>();
+        String[] words = {"a", "b", "c", "a"};
+        // 如果不存在就放进去
+        // 如果存在 f.apply(old.value, value); 计算之后放进入；如果计算结果是null，删除键
+        // 这段代码改变了外部 map 的状态
+        Arrays.stream(words).forEach(word -> map.merge(word.toLowerCase(Locale.ROOT), 1, Integer::sum));
+
+        Map<String, Long> collect = Arrays.stream(words)
+                .collect(groupingBy(String::toLowerCase, counting()));
+
+        // forEach 操作应该只用于报告Stream的计算结果，而不是执行计算
+        // 静态导入 Collectors 的所有成员，提升代码的可读性
+
+        // toList, toSet, toMap, groupingBy, joining
+    }
+
+    /**
+     * 47. Stream 要优先用 Collection 作为返回类型
+     */
+    @Test
+    public void test47() {
+        // 对于公共的，返回序列的方法，Collection或适当的子类型通常是最佳的返回类型
+        List<String> list = List.of("a", "b", "c", "d", "e");
+        Stream<List<String>> of = SubLists.of(list);
+        of.forEach(System.out::println);
+
+        // SubLists.ofFor(list);
+
+    }
+
+    /**
+     * 将流转换成迭代器
+     */
+    public <E> Iterable<E> iterableOf(Stream<E> stream) {
+        return stream::iterator;
+    }
+
+    /**
+     * 48. 谨慎使用 并行Stream
+     */
+    @Test
+    public void test48() {
+        // 如果源头是 Stream.iterate，或使用了中间操作的 limit，那么并行 pipeline 不能提高性能
+        // 不要任意的并行 Stream pipeline
     }
 }
 
+/**
+ * 输入列表的子列表
+ */
+class SubLists {
+    /**
+     * 列表前缀的后缀就是子列表
+     */
+    public static <E> Stream<List<E>> of(List<E> list) {
+        return Stream.concat(
+                Stream.of(Collections.emptyList()),
+                prefixes(list).flatMap(SubLists::suffixes)
+        );
+    }
+
+    /**
+     * 列表的前缀
+     * [a, b, c] -> [a], [a, b], [a, b, c]
+     */
+    public static <E> Stream<List<E>> prefixes(List<E> list) {
+        return IntStream.rangeClosed(1, list.size())
+                .mapToObj(end -> list.subList(0, end));
+    }
+
+    /**
+     * 列表的后缀
+     * [a, b, c] -> [a, b, c], [b, c], [c]
+     */
+    public static <E> Stream<List<E>> suffixes(List<E> list) {
+        return IntStream.rangeClosed(0, list.size())
+                .mapToObj(start -> list.subList(start, list.size()));
+    }
+
+    /**
+     * for 循环完成子列表
+     */
+    public static <E> void ofFor(List<E> list) {
+        for (int start = 0; start < list.size(); start++) {
+            for (int end = start + 1; end <= list.size(); end++) {
+                System.out.println(list.subList(start, end));
+            }
+        }
+    }
+
+    /**
+     * 用一个 Stream 完成
+     */
+    public static <E> Stream<List<E>> ofStream(List<E> list) {
+        return IntStream.rangeClosed(0, list.size())
+                .mapToObj(
+                        start -> IntStream.rangeClosed(start + 1, list.size())
+                                .mapToObj(end -> list.subList(start, end))
+                )
+                .flatMap(Function.identity());
+    }
+}

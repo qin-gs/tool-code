@@ -113,7 +113,48 @@ public class Chapter08Test {
         String[] strings = {"a", "b", "c", "d"};
         Optional<String> max = Arrays.stream(strings).max(Comparator.naturalOrder());
         max.orElseThrow(IllegalArgumentException::new);
+        // max.orElseGet(() -> "");
+        // max.or();
+        // max.ifPresentOrElse();
 
+        // 容器类型(Set, List, Map, Stream, Array, Optional)都不应该放到 Optional 中
+        // 如果无法返回结果并且当没有返回结果时客户端必须执行特殊的处理，才应该声明方法返回 Optional<T>
+        // 不要返回基本类型包装类型的 Optional
+        // 不适合用 Optional 作为键，值，集合，数组中的元素
+
+        // 不要将 Optional 用作返回值之外的其他用途
+    }
+
+    /**
+     * 56. 为所有导出的 API 元素编写文档注释
+     */
+    @Test
+    public void test56() {
+        // 文档只是中出现任何 html 标签是允许的，元字符需要进行转义
+        // {@index}
+        // {@implSpec} 描述方法和子类之间的约定(子类如何实现)
+        // {@code some code} 代码片段 加上 <pre> 处理多行代码
+        // {@literal} 处理特殊字符(>, <, &)
+        // {@inheritDoc} 继承父类的文档注释
+
+        // 在每个被导出的类，接口，构造器，方法，域声明之前加文档注释
+        // 方法的文档注释应该简洁的描述它和客户端之间的约定(做了什么)
+        // 列举出用户能够调用这个方法的前置条件 和 后置条件
+        //   前置条件：为了使用户能调用这个方法，必须满足的条件
+        //   后置条件：调用成功完成之后，哪些条件需要满足
+
+        // 同一个类或接口中的两个成员或构造器不应具有同样的概要描述
+
+        // 方法，构造器：描述改方法执行的动作
+        // 类，接口，域：用名词描述该类，接口，域本身代表的事物
+
+        // 为泛型或方法：确保在文档中说明所有的参数类型，说明枚举常量
+        // 注解：说明所有成员和类型
+
+        // 包级私有的文档注释放在 package-info.java
+        // 模块的注释放在 module-info.java
+
+        // 声明类或静态方法是否线程安全
     }
 }
 

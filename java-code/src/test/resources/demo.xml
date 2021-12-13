@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<class>
+    <student>
+        <firstname>a</firstname>
+        <lastname>b</lastname>
+        <nickname>d</nickname>
+        <marks>12</marks>
+    </student>
+    <student id="1">
+        <firstname>d</firstname>
+        <lastname>e</lastname>
+        <nickname>f</nickname>
+        <marks>34</marks>
+    </student>
+    <student id="2">
+        <firstname>g</firstname>
+        <lastname>h</lastname>
+        <nickname>i</nickname>
+        <marks />
+    </student>
+</class>

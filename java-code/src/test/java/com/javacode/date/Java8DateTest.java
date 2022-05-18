@@ -240,4 +240,14 @@ public class Java8DateTest {
         System.out.println(length);
 
     }
+
+    @Test
+    public void test14() {
+        Clock c = Clock.systemUTC();
+        long millis = c.millis();
+        System.out.println("millis = " + millis);
+
+        long l = Instant.now().toEpochMilli();
+        System.out.println("l = " + l);
+    }
 }

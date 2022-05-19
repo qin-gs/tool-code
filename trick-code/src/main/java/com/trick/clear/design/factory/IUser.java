@@ -1,0 +1,8 @@
+package com.trick.clear.design.factory;
+
+public interface IUser {
+
+    void insert(User user);
+
+    User getUser(int id);
+}

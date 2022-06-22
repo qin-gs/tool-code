@@ -18,8 +18,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * <a href="https://juejin.cn/post/6844904166809157639">jackson 基本操作</a>
+ */
 @DisplayName("jackson 测试")
 public class JacksonTest {
 
@@ -251,6 +257,11 @@ public class JacksonTest {
 
             // @JsonInclude：可以忽略一些属性 (非空)
             // @JsonSetter：通过 get 方法而不是直接通过字段获取字段值
+            // @JsonAnyGetter：将 map 作为序列化为 json 的属性的容器
+            // @JsonPropertyOrder：指定序列化顺序
+            // @JsonRawValue：直接拼上去不加双引号
+            // @JsonValue：调用指定方法序列化一个类
+            // @JsonSerialize：true/false  ->  1/0
 
         }
     }
@@ -319,6 +330,7 @@ class UserDeserializer extends StdDeserializer<User> {
 @JsonIgnoreProperties({"birth"})
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonPropertyOrder({"name", "id"})
 class User {
 
     private String id;
@@ -339,6 +351,22 @@ class User {
     private List<String> habits;
     private List<User> users;
     private Map<String, Object> unknown;
+
+    private Map<String, Object> properties = new HashMap<>();
+
+    /**
+     * 直接拼上去，不添加双引号
+     */
+    @JsonRawValue
+    private String country = "{ \"street\" : \"Wall Street\", \"no\":1}";
+
+    /**
+     * 将 map 作为序列化为 json 属性的容器
+     */
+    @JsonAnyGetter
+    public Map<String, Object> properties() {
+        return properties;
+    }
 
     @JacksonInject
     private String source = null;

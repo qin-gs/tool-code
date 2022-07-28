@@ -26,7 +26,7 @@ public class FileUploadTest {
         // 临时文件目录
         factory.setRepository(new File("tmp.txt"));
         // 文件上传的核心
-        ServletFileUpload upload = new ServletFileUpload();
+        ServletFileUpload upload = new ServletFileUpload(factory);
         // 最大可支持的文件大小
         upload.setFileSizeMax(1024 * 1024 * 10);
         upload.setHeaderEncoding("utf-8");

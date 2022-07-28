@@ -23,5 +23,9 @@ public class MapTest {
         // 如果存在，返回key对应的值
         // 如果不存在将第二个参数的返回值存入并返回
         map.computeIfAbsent("a", x -> "value");
+
+        // 计数
+        Map<Character, Integer> count = new HashMap<>();
+        count.put('a', count.getOrDefault('a', 0) + 1);
     }
 }

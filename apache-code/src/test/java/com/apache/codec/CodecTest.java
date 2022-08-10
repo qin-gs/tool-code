@@ -50,11 +50,17 @@ public class CodecTest {
     public void urlTest() throws EncoderException, DecoderException {
         URLCodec codec = new URLCodec();
         String url = codec.encode("http://coderead.cn/p/mybatis/map/file/结果集处理.map");
+        // encodeURIComponent 不会对ASCII字母、数字、~!*()' 编码 (编码范围更大)
         String encode = codec.encode(url);
         System.out.println(encode);
 
+        // encodeURI 不会对ASCII字母、数字、~!@#$&*()=:/,;?+' 编码。
         String decode = codec.decode(encode);
         System.out.println(decode);
+
+        // 解码出汉字
+        String d = codec.decode(decode);
+        System.out.println(d);
     }
 
     /**
@@ -67,9 +73,9 @@ public class CodecTest {
     @Test
     public void digestTest() {
         String s = RandomStringUtils.randomAscii(10);
+        System.out.println(s);
 
         String md5 = DigestUtils.md5Hex(s);
-        System.out.println(s);
         System.out.println(md5);
 
         String sha256Hex = DigestUtils.sha256Hex(s);

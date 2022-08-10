@@ -47,8 +47,6 @@ public class CollectionTest {
 
     @Test
     public void listTest() {
-        ListUtils utils;
-        SetUtils setUtils;
 
         List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
         // 固定大小，不能添加，但可以修改值
